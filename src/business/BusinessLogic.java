@@ -31,6 +31,7 @@ public class BusinessLogic {
             return id;
         }
     }
+
     public static String getNewCustomerId(){
         String lastCustomerId = DataLayer.getLastCustomerId();
         if (lastCustomerId == null){
