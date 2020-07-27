@@ -211,4 +211,17 @@ public class DataLayer {
         return 0;
     }
 
+    public static String autoGeneratePlaceOrderID(){
+        Connection connection = DBConnection.getInstance().getConnection();
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select id from `Order` order by id desc limit 1");
+            resultSet.next();
+            return resultSet.getString(1);
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return null;
+    }
 }

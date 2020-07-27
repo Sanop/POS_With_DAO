@@ -134,5 +134,19 @@ public class BusinessLogic {
         //return DataLayer.placeOrder(order, orderDetails);
     }
 
+    public static String autoGeneratePlaceOrderID(){
+        String oldID = DataLayer.autoGeneratePlaceOrderID();
 
+        oldID = oldID.substring(2, 5);
+
+        int newID = Integer.parseInt(oldID) + 1;
+
+        if (newID < 10) {
+            return  "OD00" + newID;
+        } else if (newID < 100) {
+            return  "OD0" + newID;
+        } else {
+            return  "OD" + newID;
+        }
+    }
 }
