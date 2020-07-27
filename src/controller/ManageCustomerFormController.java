@@ -37,7 +37,7 @@ import java.util.ResourceBundle;
 /**
  * FXML Controller class
  *
- * @author ranjith-suranga
+ * @author SanoP
  */
 public class ManageCustomerFormController implements Initializable {
 
