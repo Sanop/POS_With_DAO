@@ -10,7 +10,7 @@ This project uses a GUI library
 
 ## Database
 
-Find Database Configeration From src/Database, & set your Database Password
+Find Database Configeration From src/db, & set your Database Password
 
 
 ## Contributing
