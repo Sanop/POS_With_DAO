@@ -172,7 +172,8 @@ public class DataLayer {
             preparedStatement.setObject(2,order.getOrderDate());
             preparedStatement.setObject(3,order.getCustomerId());
 
-            return preparedStatement.executeUpdate();
+            int i = preparedStatement.executeUpdate();
+            return i;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
