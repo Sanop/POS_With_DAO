@@ -75,7 +75,7 @@ public class CustomerDAO {
     public static boolean deleteCustomer(String id){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete Customer where id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from Customer where id = ?");
             preparedStatement.setObject(1,id);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException throwables) {

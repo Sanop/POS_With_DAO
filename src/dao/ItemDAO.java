@@ -84,7 +84,7 @@ public class ItemDAO {
     public static boolean deleteItem(String id){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete Item where code = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from Item where code = ?");
             preparedStatement.setObject(1,id);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException throwables) {

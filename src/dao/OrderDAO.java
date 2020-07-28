@@ -80,7 +80,7 @@ public class OrderDAO {
     public static boolean deleteOrder(String id){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete `Order` where id = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("delete from `Order` where id = ?");
             preparedStatement.setObject(1,id);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException throwables) {
