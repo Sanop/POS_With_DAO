@@ -83,4 +83,20 @@ public class CustomerDAO {
             return false;
         }
     }
+
+    public static String getLastCustomerID() {
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            Statement stm = connection.createStatement();
+            ResultSet rst = stm.executeQuery("SELECT * FROM Customer ORDER BY id DESC  LIMIT 1");
+            if (rst.next()){
+                return rst.getString(1);
+            }else{
+                return null;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
+        }
+    }
 }

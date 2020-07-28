@@ -102,24 +102,24 @@ public class DataLayer {
         }
     }
 
-    public static List<ItemTM> getAllItems(){
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            Statement stm = connection.createStatement();
-            ResultSet rst = stm.executeQuery("SELECT * FROM Item");
-            ArrayList<ItemTM> items = new ArrayList<>();
-            while (rst.next()){
-                items.add(new ItemTM(rst.getString(1),
-                        rst.getString(2),
-                        rst.getInt(4),
-                        rst.getDouble(3)));
-            }
-            return items;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
-        return null;
-    }
+//    public static List<ItemTM> getAllItems(){
+//        try {
+//            Connection connection = DBConnection.getInstance().getConnection();
+//            Statement stm = connection.createStatement();
+//            ResultSet rst = stm.executeQuery("SELECT * FROM Item");
+//            ArrayList<ItemTM> items = new ArrayList<>();
+//            while (rst.next()){
+//                items.add(new ItemTM(rst.getString(1),
+//                        rst.getString(2),
+//                        rst.getInt(4),
+//                        rst.getDouble(3)));
+//            }
+//            return items;
+//        } catch (SQLException throwables) {
+//            throwables.printStackTrace();
+//        }
+//        return null;
+//    }
 
     public static boolean saveItem(ItemTM item){
         try {

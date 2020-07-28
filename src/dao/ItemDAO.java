@@ -68,7 +68,7 @@ public class ItemDAO {
     public static boolean updateItem(Item item){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("update Item set description ?,unitPrice = ?,qtyOnHand = ? where code = ?");
+            PreparedStatement preparedStatement = connection.prepareStatement("update Item set description = ?,unitPrice = ?,qtyOnHand = ? where code = ?");
             preparedStatement.setObject(1,item.getDescription());
             preparedStatement.setObject(2,item.getUnitPrice());
             preparedStatement.setObject(3,item.getQtyOnHand());
@@ -90,6 +90,22 @@ public class ItemDAO {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return false;
+        }
+    }
+
+    public static String getLastCustomerID() {
+        Connection connection = DBConnection.getInstance().getConnection();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from Item order by code desc limit 1");
+            if(resultSet.next()){
+                return resultSet.getString(1);
+            }else{
+                return null;
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            return null;
         }
     }
 }

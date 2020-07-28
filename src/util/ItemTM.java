@@ -1,5 +1,7 @@
 package util;
 
+import java.math.BigDecimal;
+
 public class ItemTM implements Cloneable{
 
     private String code;
@@ -10,7 +12,7 @@ public class ItemTM implements Cloneable{
     public ItemTM() {
     }
 
-    public ItemTM(String code, String description, int qtyOnHand, double unitPrice) {
+    public ItemTM(String code, String description, double unitPrice,int qtyOnHand) {
         this.code = code;
         this.description = description;
         this.qtyOnHand = qtyOnHand;
@@ -18,7 +20,7 @@ public class ItemTM implements Cloneable{
     }
 
     public ItemTM clone(){
-        return new ItemTM(this.code, this.description, this.qtyOnHand, this.unitPrice);
+        return new ItemTM(this.code, this.description, this.unitPrice, this.qtyOnHand);
     }
 
     public String getCode() {

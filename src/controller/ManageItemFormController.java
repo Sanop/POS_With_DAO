@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import util.ItemTM;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -140,7 +141,7 @@ public class ManageItemFormController implements Initializable {
 
         if (btnSave.getText().equals("Save")) {
 
-            boolean result = BusinessLogic.saveItem(txtCode.getText(), txtDescription.getText(), qtyOnHand, unitPrice);
+            boolean result = BusinessLogic.saveItem(txtCode.getText(), txtDescription.getText(), qtyOnHand, BigDecimal.valueOf(unitPrice));
             if (!result){
                 new Alert(Alert.AlertType.ERROR, "Failed to save the item", ButtonType.OK).show();
             }
@@ -148,7 +149,7 @@ public class ManageItemFormController implements Initializable {
         } else {
             ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
 
-            boolean result = BusinessLogic.updateItem(txtDescription.getText(),  qtyOnHand, unitPrice, selectedItem.getCode());
+            boolean result = BusinessLogic.updateItem(txtDescription.getText(),  qtyOnHand, BigDecimal.valueOf(unitPrice), selectedItem.getCode());
             if (!result) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the Item").show();
             }
