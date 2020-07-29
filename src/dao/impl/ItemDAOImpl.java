@@ -94,7 +94,7 @@ public class ItemDAOImpl implements ItemDAO {
         }
     }
 
-    public String getLastCustomerID() {
+    public String getLastItemID() {
         Connection connection = DBConnection.getInstance().getConnection();
         try {
             Statement statement = connection.createStatement();
