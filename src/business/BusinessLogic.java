@@ -140,13 +140,18 @@ public class BusinessLogic {
                 }
 
                 ItemDAO itemDAO = new ItemDAOImpl();
-                b = itemDAO.updateItem(new Item(orderDetail.getCode(), orderDetail.getDescription(), BigDecimal.valueOf(orderDetail.getUnitPrice()), orderDetail.getQty()));
+                Item item = itemDAO.findItem(orderDetail.getCode());
+                item.setQtyOnHand(item.getQtyOnHand() - orderDetail.getQty());
+                b = itemDAO.updateItem(new Item(orderDetail.getCode(), orderDetail.getDescription(), BigDecimal.valueOf(orderDetail.getUnitPrice()), item.getQtyOnHand()));
                 if(!b){
                     connection.rollback();
                     return false;
                 }
 
             }
+
+
+
             connection.commit();
             return true;
         } catch (SQLException throwables) {
