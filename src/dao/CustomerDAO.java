@@ -9,7 +9,7 @@ import java.util.List;
 
 public class CustomerDAO {
 
-    public static List<Customer> findAllCustomers(){
+    public List<Customer> findAllCustomers(){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement statement = connection.createStatement();
@@ -27,7 +27,7 @@ public class CustomerDAO {
         }
     }
 
-    public static Customer findCustomer(String id){
+    public Customer findCustomer(String id){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from Customer where id = ?");
@@ -44,7 +44,7 @@ public class CustomerDAO {
         return null;
     }
 
-    public static boolean addCustomer(Customer customer){
+    public boolean addCustomer(Customer customer){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into Customer values (?,?,?)");
@@ -58,7 +58,7 @@ public class CustomerDAO {
         }
     }
 
-    public static boolean updateCustomer(Customer customer){
+    public boolean updateCustomer(Customer customer){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("update Customer set name ?,address = ? where id = ?");
@@ -72,7 +72,7 @@ public class CustomerDAO {
         }
     }
 
-    public static boolean deleteCustomer(String id){
+    public boolean deleteCustomer(String id){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("delete from Customer where id = ?");
@@ -84,7 +84,7 @@ public class CustomerDAO {
         }
     }
 
-    public static String getLastCustomerID() {
+    public String getLastCustomerID() {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement stm = connection.createStatement();

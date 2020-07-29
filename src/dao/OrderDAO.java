@@ -12,7 +12,7 @@ import java.util.List;
 
 public class OrderDAO {
 
-    public static List<Order> findAllOrders(){
+    public List<Order> findAllOrders(){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement statement = connection.createStatement();
@@ -30,7 +30,7 @@ public class OrderDAO {
         }
     }
 
-    public static Order findOrder(String id){
+    public Order findOrder(String id){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from `Order` where id = ?");
@@ -49,7 +49,7 @@ public class OrderDAO {
         return null;
     }
 
-    public static boolean addOrder(Order order){
+    public boolean addOrder(Order order){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into `Order` values (?,?,?)");
@@ -63,7 +63,7 @@ public class OrderDAO {
         }
     }
 
-    public static boolean updateOrder(Order order){
+    public boolean updateOrder(Order order){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("update `Order` set date =  ?,customerId = ? where id = ?");
@@ -77,7 +77,7 @@ public class OrderDAO {
         }
     }
 
-    public static boolean deleteOrder(String id){
+    public boolean deleteOrder(String id){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("delete from `Order` where id = ?");

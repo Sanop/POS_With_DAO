@@ -12,7 +12,7 @@ import java.util.List;
 
 public class OrderDetailDAO {
 
-    public static List<OrderDetail> findAllOrderDetails(){
+    public List<OrderDetail> findAllOrderDetails(){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement statement = connection.createStatement();
@@ -31,7 +31,7 @@ public class OrderDetailDAO {
         }
     }
 
-    public static OrderDetail findOrderDetail(OrderDetailPK orderDetailPK){
+    public OrderDetail findOrderDetail(OrderDetailPK orderDetailPK){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from OrderDetail where orderId = ? and itemCode = ?");
@@ -52,7 +52,7 @@ public class OrderDetailDAO {
         return null;
     }
 
-    public static boolean addOrderDetail(OrderDetail orderDetail){
+    public boolean addOrderDetail(OrderDetail orderDetail){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into OrderDetail values (?,?,?,?)");
@@ -67,7 +67,7 @@ public class OrderDetailDAO {
         }
     }
 
-    public static boolean updateOrderDetail(OrderDetail orderDetail){
+    public boolean updateOrderDetail(OrderDetail orderDetail){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("update OrderDetail set qty =  ?,unitPrice = ? where orderId = ? and itemCode = ?");
@@ -82,7 +82,7 @@ public class OrderDetailDAO {
         }
     }
 
-    public static boolean deleteOrderDetail(OrderDetailPK orderDetailPK){
+    public boolean deleteOrderDetail(OrderDetailPK orderDetailPK){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("delete OrderDetail where orderId = ? and itemCode = ?");
@@ -95,7 +95,7 @@ public class OrderDetailDAO {
         }
     }
 
-    public static String getLastOrderDetailID() {
+    public String getLastOrderDetailID() {
         Connection connection = DBConnection.getInstance().getConnection();
 
         try {

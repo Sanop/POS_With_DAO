@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ItemDAO {
 
-    public static List<Item> findAllItems(){
+    public List<Item> findAllItems(){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement statement = connection.createStatement();
@@ -30,7 +30,7 @@ public class ItemDAO {
         }
     }
 
-    public static Item findItem(String id){
+    public Item findItem(String id){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from Item where code = ?");
@@ -50,7 +50,7 @@ public class ItemDAO {
         return null;
     }
 
-    public static boolean addItem(Item item){
+    public boolean addItem(Item item){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into Item values (?,?,?,?)");
@@ -65,7 +65,7 @@ public class ItemDAO {
         }
     }
 
-    public static boolean updateItem(Item item){
+    public boolean updateItem(Item item){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("update Item set description = ?,unitPrice = ?,qtyOnHand = ? where code = ?");
@@ -81,7 +81,7 @@ public class ItemDAO {
         }
     }
 
-    public static boolean deleteItem(String id){
+    public boolean deleteItem(String id){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("delete from Item where code = ?");
@@ -93,7 +93,7 @@ public class ItemDAO {
         }
     }
 
-    public static String getLastCustomerID() {
+    public String getLastCustomerID() {
         Connection connection = DBConnection.getInstance().getConnection();
         try {
             Statement statement = connection.createStatement();
