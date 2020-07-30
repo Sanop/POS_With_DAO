@@ -12,12 +12,12 @@ import java.util.List;
 
 public class ItemDAOImpl implements ItemDAO {
 
-    public List<Item> findAllItems(){
+    public List<Object> findAll(){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from Item");
-            List<Item> itemList = new ArrayList<>();
+            List<Object> itemList = new ArrayList<>();
             while (resultSet.next()){
                 itemList.add(new Item(resultSet.getString(1),
                         resultSet.getString(2),
@@ -31,11 +31,11 @@ public class ItemDAOImpl implements ItemDAO {
         }
     }
 
-    public Item findItem(String id){
+    public Object find(Object pk){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from Item where code = ?");
-            preparedStatement.setObject(1,id);
+            preparedStatement.setObject(1,pk);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next()){
@@ -51,10 +51,11 @@ public class ItemDAOImpl implements ItemDAO {
         return null;
     }
 
-    public boolean addItem(Item item){
+    public boolean add(Object entity){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into Item values (?,?,?,?)");
+            Item item = (Item) entity;
             preparedStatement.setObject(1,item.getCode());
             preparedStatement.setObject(2,item.getDescription());
             preparedStatement.setObject(3,item.getUnitPrice());
@@ -66,9 +67,10 @@ public class ItemDAOImpl implements ItemDAO {
         }
     }
 
-    public boolean updateItem(Item item){
+    public boolean update(Object entity){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
+            Item item = (Item) entity;
             PreparedStatement preparedStatement = connection.prepareStatement("update Item set description = ?,unitPrice = ?,qtyOnHand = ? where code = ?");
             preparedStatement.setObject(1,item.getDescription());
             preparedStatement.setObject(2,item.getUnitPrice());
@@ -82,11 +84,11 @@ public class ItemDAOImpl implements ItemDAO {
         }
     }
 
-    public boolean deleteItem(String id){
+    public boolean delete(Object pk){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("delete from Item where code = ?");
-            preparedStatement.setObject(1,id);
+            preparedStatement.setObject(1,pk);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

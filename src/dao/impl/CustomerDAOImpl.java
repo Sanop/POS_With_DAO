@@ -10,12 +10,12 @@ import java.util.List;
 
 public class CustomerDAOImpl implements CustomerDAO {
 
-    public List<Customer> findAllCustomers(){
+    public List<Object> findAll(){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from Customer");
-            List<Customer> customerList = new ArrayList<>();
+            List<Object> customerList = new ArrayList<>();
             while (resultSet.next()){
                 customerList.add(new Customer(resultSet.getString(1),
                         resultSet.getString(2),
@@ -28,11 +28,11 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
-    public Customer findCustomer(String id){
+    public Object find(Object pk) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from Customer where id = ?");
-            preparedStatement.setObject(1,id);
+            preparedStatement.setObject(1,pk);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if(resultSet.next()){
@@ -45,10 +45,11 @@ public class CustomerDAOImpl implements CustomerDAO {
         return null;
     }
 
-    public boolean addCustomer(Customer customer){
+    public boolean add(Object entity){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into Customer values (?,?,?)");
+            Customer customer = (Customer) entity;
             preparedStatement.setObject(1,customer.getId());
             preparedStatement.setObject(2,customer.getName());
             preparedStatement.setObject(3,customer.getAddress());
@@ -59,10 +60,11 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
-    public boolean updateCustomer(Customer customer){
+    public boolean update(Object entity){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("update Customer set name ?,address = ? where id = ?");
+            Customer customer = (Customer) entity;
             preparedStatement.setObject(3,customer.getId());
             preparedStatement.setObject(1,customer.getName());
             preparedStatement.setObject(2,customer.getAddress());
@@ -73,11 +75,11 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
-    public boolean deleteCustomer(String id){
+    public boolean delete(Object pk){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("delete from Customer where id = ?");
-            preparedStatement.setObject(1,id);
+            preparedStatement.setObject(1,pk);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();

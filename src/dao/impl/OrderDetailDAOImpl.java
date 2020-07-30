@@ -13,12 +13,12 @@ import java.util.List;
 
 public class OrderDetailDAOImpl implements OrderDetailDAO {
 
-    public List<OrderDetail> findAllOrderDetails(){
+    public List<Object> findAll(){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from OrderDetail");
-            List<OrderDetail> orderList = new ArrayList<>();
+            List<Object> orderList = new ArrayList<>();
             while (resultSet.next()){
                 orderList.add(new OrderDetail(resultSet.getString(1),
                         resultSet.getString(2),
@@ -32,10 +32,11 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
         }
     }
 
-    public OrderDetail findOrderDetail(OrderDetailPK orderDetailPK){
+    public Object find(Object entity){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from OrderDetail where orderId = ? and itemCode = ?");
+            OrderDetailPK orderDetailPK = (OrderDetailPK) entity;
             preparedStatement.setObject(1,orderDetailPK.getOrderID());
             preparedStatement.setObject(2,orderDetailPK.getItemCode());
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -53,10 +54,11 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
         return null;
     }
 
-    public boolean addOrderDetail(OrderDetail orderDetail){
+    public boolean add(Object entity){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into OrderDetail values (?,?,?,?)");
+            OrderDetail orderDetail = (OrderDetail) entity;
             preparedStatement.setObject(1,orderDetail.getOrderDetailPK().getOrderID());
             preparedStatement.setObject(2,orderDetail.getOrderDetailPK().getItemCode());
             preparedStatement.setObject(3,orderDetail.getQty());
@@ -68,10 +70,11 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
         }
     }
 
-    public boolean updateOrderDetail(OrderDetail orderDetail){
+    public boolean update(Object entity){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("update OrderDetail set qty =  ?,unitPrice = ? where orderId = ? and itemCode = ?");
+            OrderDetail orderDetail = (OrderDetail) entity;
             preparedStatement.setObject(1,orderDetail.getQty());
             preparedStatement.setObject(2,orderDetail.getUnitPrice());
             preparedStatement.setObject(3,orderDetail.getOrderDetailPK().getOrderID());
@@ -83,10 +86,11 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
         }
     }
 
-    public boolean deleteOrderDetail(OrderDetailPK orderDetailPK){
+    public boolean delete(Object entity){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("delete OrderDetail where orderId = ? and itemCode = ?");
+            OrderDetailPK orderDetailPK = (OrderDetailPK) entity;
             preparedStatement.setObject(1,orderDetailPK.getOrderID());
             preparedStatement.setObject(2,orderDetailPK.getItemCode());
             return preparedStatement.executeUpdate() > 0;
