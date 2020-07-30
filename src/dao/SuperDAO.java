@@ -1,17 +1,15 @@
 package dao;
 
-import entity.Customer;
-
 import java.util.List;
 
-public interface SuperDAO {
-    List<Object> findAll();
+public interface SuperDAO <T,ID>{
+    List<T> findAll();
 
-    Object find(Object pk);
+    T find(ID pk);
 
-    boolean add(Object entity);
+    boolean add(T entity);
 
-    boolean update(Object entity);
+    boolean update(T entity);
 
-    boolean delete(Object pk);
+    boolean delete(ID pk);
 }
