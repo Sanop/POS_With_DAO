@@ -13,15 +13,17 @@ import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
 
-    public List<Object> findAll(){
+
+    @Override
+    public List<Order> findAll() {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery("select * from `Order`");
-            List<Object> orderList = new ArrayList<>();
+            List<Order> orderList = new ArrayList<>();
             while (resultSet.next()){
                 orderList.add(new Order(resultSet.getString(1),
-                       resultSet.getDate(2),
+                        resultSet.getDate(2),
                         resultSet.getString(3)));
             }
             return orderList;
@@ -31,7 +33,8 @@ public class OrderDAOImpl implements OrderDAO {
         }
     }
 
-    public Object find(Object pk){
+    @Override
+    public Order find(String pk) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("select * from `Order` where id = ?");
@@ -50,14 +53,14 @@ public class OrderDAOImpl implements OrderDAO {
         return null;
     }
 
-    public boolean add(Object entity){
+    @Override
+    public boolean add(Order entity) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("insert into `Order` values (?,?,?)");
-            Order order = (Order) entity;
-            preparedStatement.setObject(1,order.getId());
-            preparedStatement.setObject(2,order.getDate());
-            preparedStatement.setObject(3,order.getCustomerId());
+            preparedStatement.setObject(1,entity.getId());
+            preparedStatement.setObject(2,entity.getDate());
+            preparedStatement.setObject(3,entity.getCustomerId());
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -65,14 +68,14 @@ public class OrderDAOImpl implements OrderDAO {
         }
     }
 
-    public boolean update(Object entity){
+    @Override
+    public boolean update(Order entity) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
-            Order order = (Order) entity;
             PreparedStatement preparedStatement = connection.prepareStatement("update `Order` set date =  ?,customerId = ? where id = ?");
-            preparedStatement.setObject(1,order.getDate());
-            preparedStatement.setObject(2,order.getCustomerId());
-            preparedStatement.setObject(3,order.getId());
+            preparedStatement.setObject(1,entity.getDate());
+            preparedStatement.setObject(2,entity.getCustomerId());
+            preparedStatement.setObject(3,entity.getId());
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -80,7 +83,8 @@ public class OrderDAOImpl implements OrderDAO {
         }
     }
 
-    public boolean delete(Object pk){
+    @Override
+    public boolean delete(String pk) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("delete from `Order` where id = ?");
