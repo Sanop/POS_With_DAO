@@ -1,12 +1,10 @@
-package dao.impl;
+package dao.custom.impl;
 
-import dao.OrderDetailDAO;
+import dao.custom.OrderDetailDAO;
 import db.DBConnection;
-import entity.Order;
 import entity.OrderDetail;
 import entity.OrderDetailPK;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;

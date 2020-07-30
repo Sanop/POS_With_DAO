@@ -1,6 +1,6 @@
 package entity;
 
-public class OrderDetailPK {
+public class OrderDetailPK implements SuperEntity{
     private String orderID;
     private String itemCode;
 
