@@ -67,7 +67,7 @@ public class BusinessLogic {
 
     public static List<CustomerTM> getAllCustomers(){
         CustomerDAO customerDAO = new CustomerDAOImpl();
-        List<Customer> allCustomers = customerDAO.findAll();
+        List<Customer> allCustomers = customerDAO.findAll() ;
         List<CustomerTM> customerTMS = new ArrayList<>();
 
         for (Customer customerTM : allCustomers) {
