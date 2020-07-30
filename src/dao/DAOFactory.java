@@ -8,7 +8,6 @@ import dao.custom.impl.CustomerDAOImpl;
 import dao.custom.impl.ItemDAOImpl;
 import dao.custom.impl.OrderDAOImpl;
 import dao.custom.impl.OrderDetailDAOImpl;
-import entity.OrderDetail;
 
 public class DAOFactory {
     private static DAOFactory daoFactory;
@@ -25,15 +24,31 @@ public class DAOFactory {
         return new CustomerDAOImpl();
     }
 
-    public ItemDAO getItemDAO(){
-        return new ItemDAOImpl();
+    public SuperDAO getDAO(int daoType){
+
+        switch (daoType){
+            case 1:
+                return new CustomerDAOImpl();
+            case 2:
+                return new ItemDAOImpl();
+            case 3:
+                return new OrderDAOImpl();
+            case 4:
+                return new OrderDetailDAOImpl();
+            default:
+                return null;
+        }
     }
 
-    public OrderDAO getOrderDAO(){
-        return new OrderDAOImpl();
-    }
-
-    public OrderDetailDAO getOrderDetailDAO(){
-        return new OrderDetailDAOImpl();
-    }
+//    public ItemDAO getItemDAO(){
+//        return new ItemDAOImpl();
+//    }
+//
+//    public OrderDAO getOrderDAO(){
+//        return new OrderDAOImpl();
+//    }
+//
+//    public OrderDetailDAO getOrderDetailDAO(){
+//        return new OrderDetailDAOImpl();
+//    }
 }
