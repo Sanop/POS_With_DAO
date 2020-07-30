@@ -4,9 +4,10 @@ import java.sql.Date;
 
 public class CustomEntity implements SuperEntity {
     private String orderID;
-    private String customerName;
     private Date orderDate;
     private String customerID;
+    private String customerName;
+    double total;
 
     public CustomEntity() {
     }
@@ -21,6 +22,22 @@ public class CustomEntity implements SuperEntity {
         this.orderID = orderID;
         this.customerName = customerName;
         this.customerID = customerID;
+    }
+
+    public CustomEntity(String orderID, Date orderDate, String customerID, String customerName, double total) {
+        this.orderID = orderID;
+        this.orderDate = orderDate;
+        this.customerID = customerID;
+        this.customerName = customerName;
+        this.total = total;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public String getOrderID() {
@@ -53,5 +70,16 @@ public class CustomEntity implements SuperEntity {
 
     public void setCustomerID(String customerID) {
         this.customerID = customerID;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomEntity{" +
+                "orderID='" + orderID + '\'' +
+                ", orderDate=" + orderDate +
+                ", customerID='" + customerID + '\'' +
+                ", customerName='" + customerName + '\'' +
+                ", total=" + total +
+                '}';
     }
 }
