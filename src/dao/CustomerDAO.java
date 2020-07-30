@@ -4,7 +4,7 @@ import entity.Customer;
 
 import java.util.List;
 
-public interface CustomerDAO {
+public interface CustomerDAO extends SuperDAO {
     public List<Customer> findAllCustomers();
 
     public Customer findCustomer(String id);

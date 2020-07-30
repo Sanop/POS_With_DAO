@@ -4,7 +4,7 @@ import entity.Item;
 
 import java.util.List;
 
-public interface ItemDAO {
+public interface ItemDAO extends SuperDAO {
 
     public List<Item> findAllItems();
 
