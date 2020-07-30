@@ -67,11 +67,10 @@ public class BusinessLogic {
 
     public static List<CustomerTM> getAllCustomers(){
         CustomerDAO customerDAO = new CustomerDAOImpl();
-        List<Object> allCustomers = customerDAO.findAll();
+        List<Customer> allCustomers = customerDAO.findAll();
         List<CustomerTM> customerTMS = new ArrayList<>();
 
-        for (Object c : allCustomers) {
-            Customer customerTM = (Customer) c;
+        for (Customer customerTM : allCustomers) {
             customerTMS.add(new CustomerTM(customerTM.getId(),customerTM.getName(),customerTM.getAddress()));
         }
         return customerTMS;
@@ -94,11 +93,10 @@ public class BusinessLogic {
 
     public static List<ItemTM> getAllItems(){
         ItemDAO itemDAO = new ItemDAOImpl();
-        List<Object> allItems = itemDAO.findAll();
+        List<Item> allItems = itemDAO.findAll();
         List<ItemTM> itemTMS = new ArrayList<>();
 
-        for (Object a : allItems) {
-            Item allItem = (Item) a;
+        for (Item allItem : allItems) {
             itemTMS.add(new ItemTM(allItem.getCode(),allItem.getDescription(),allItem.getUnitPrice().doubleValue(),allItem.getQtyOnHand()));
         }
         return itemTMS;
@@ -143,8 +141,7 @@ public class BusinessLogic {
 
                 ItemDAO itemDAO = new ItemDAOImpl();
 
-                Object entity = itemDAO.find(orderDetail.getCode());
-                Item item = (Item) entity;
+                Item item = itemDAO.find(orderDetail.getCode());
                 item.setQtyOnHand(item.getQtyOnHand() - orderDetail.getQty());
 
                 b = itemDAO.update(new Item(orderDetail.getCode(), orderDetail.getDescription(), BigDecimal.valueOf(orderDetail.getUnitPrice()), item.getQtyOnHand()));
