@@ -24,17 +24,17 @@ public class DAOFactory {
         return new CustomerDAOImpl();
     }
 
-    public SuperDAO getDAO(int daoType){
+    public <T extends SuperDAO> T getDAO(DAOType daoType){
 
         switch (daoType){
-            case 1:
-                return new CustomerDAOImpl();
-            case 2:
-                return new ItemDAOImpl();
-            case 3:
-                return new OrderDAOImpl();
-            case 4:
-                return new OrderDetailDAOImpl();
+            case CUSTOMER:
+                return (T) new CustomerDAOImpl();
+            case ITEM:
+                return (T) new ItemDAOImpl();
+            case ORDER:
+                return (T) new OrderDAOImpl();
+            case ORDER_DETAIL:
+                return (T) new OrderDetailDAOImpl();
             default:
                 return null;
         }
