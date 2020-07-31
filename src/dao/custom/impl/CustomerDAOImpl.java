@@ -1,5 +1,6 @@
 package dao.custom.impl;
 
+import dao.CrudUtil;
 import dao.custom.CustomerDAO;
 import db.DBConnection;
 import entity.Customer;
@@ -12,9 +13,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public String getLastCustomerID() {
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            Statement stm = connection.createStatement();
-            ResultSet rst = stm.executeQuery("SELECT * FROM Customer ORDER BY id DESC  LIMIT 1");
+            ResultSet rst = CrudUtil.execute("SELECT * FROM Customer ORDER BY id DESC  LIMIT 1");
             if (rst.next()){
                 return rst.getString(1);
             }else{
@@ -29,9 +28,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public List<Customer> findAll() {
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from Customer");
+            ResultSet resultSet = CrudUtil.execute("select * from Customer");
             List<Customer> customerList = new ArrayList<>();
             while (resultSet.next()){
                 customerList.add(new Customer(resultSet.getString(1),
@@ -48,10 +45,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public Customer find(String pk) {
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from Customer where id = ?");
-            preparedStatement.setObject(1,pk);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = CrudUtil.execute("select * from Customer where id = ?",pk);
 
             if(resultSet.next()){
                 return new Customer(resultSet.getString(1), resultSet.getString(2), resultSet.getString(3));
@@ -65,44 +59,17 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Override
     public boolean add(Customer entity) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into Customer values (?,?,?)");
-            preparedStatement.setObject(1,entity.getId());
-            preparedStatement.setObject(2,entity.getName());
-            preparedStatement.setObject(3,entity.getAddress());
-            return preparedStatement.executeUpdate() > 0;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+        return CrudUtil.execute("insert into Customer values (?,?,?)", entity.getId(), entity.getName(), entity.getAddress());
+
     }
 
     @Override
     public boolean update(Customer entity) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("update Customer set name ?,address = ? where id = ?");
-            preparedStatement.setObject(3,entity.getId());
-            preparedStatement.setObject(1,entity.getName());
-            preparedStatement.setObject(2,entity.getAddress());
-            return preparedStatement.executeUpdate() > 0;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+        return CrudUtil.execute("update Customer set name ?,address = ? where id = ?",entity.getName(),entity.getAddress(),entity.getId());
     }
 
     @Override
     public boolean delete(String pk) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from Customer where id = ?");
-            preparedStatement.setObject(1,pk);
-            return preparedStatement.executeUpdate() > 0;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+        return CrudUtil.execute("delete from Customer where id = ?" , pk);
     }
 }

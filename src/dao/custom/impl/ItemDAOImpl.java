@@ -1,5 +1,6 @@
 package dao.custom.impl;
 
+import dao.CrudUtil;
 import dao.custom.ItemDAO;
 import db.DBConnection;
 import entity.Item;
@@ -14,10 +15,8 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public String getLastItemID() {
-        Connection connection = DBConnection.getInstance().getConnection();
         try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from Item order by code desc limit 1");
+            ResultSet resultSet = CrudUtil.execute("select * from Item order by code desc limit 1");
             if(resultSet.next()){
                 return resultSet.getString(1);
             }else{
@@ -32,9 +31,7 @@ public class ItemDAOImpl implements ItemDAO {
     @Override
     public List<Item> findAll() {
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("select * from Item");
+            ResultSet resultSet = CrudUtil.execute("select * from Item");
             List<Item> itemList = new ArrayList<>();
             while (resultSet.next()){
                 itemList.add(new Item(resultSet.getString(1),
@@ -52,10 +49,7 @@ public class ItemDAOImpl implements ItemDAO {
     @Override
     public Item find(String pk) {
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from Item where code = ?");
-            preparedStatement.setObject(1,pk);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = CrudUtil.execute("select * from Item where code = ?",pk);
 
             if(resultSet.next()){
                 return new Item(resultSet.getString(1),
@@ -72,47 +66,18 @@ public class ItemDAOImpl implements ItemDAO {
 
     @Override
     public boolean add(Item entity) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into Item values (?,?,?,?)");
-            preparedStatement.setObject(1,entity.getCode());
-            preparedStatement.setObject(2,entity.getDescription());
-            preparedStatement.setObject(3,entity.getUnitPrice());
-            preparedStatement.setObject(4,entity.getQtyOnHand());
-            return preparedStatement.executeUpdate() > 0;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+        return CrudUtil.execute("insert into Item values (?,?,?,?)" , entity.getCode(),entity.getDescription(),entity.getUnitPrice(),entity.getQtyOnHand());
     }
 
     @Override
     public boolean update(Item entity) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("update Item set description = ?,unitPrice = ?,qtyOnHand = ? where code = ?");
-            preparedStatement.setObject(1,entity.getDescription());
-            preparedStatement.setObject(2,entity.getUnitPrice());
-            preparedStatement.setObject(3,entity.getQtyOnHand());
-            preparedStatement.setObject(4,entity.getCode());
 
-            return preparedStatement.executeUpdate() > 0;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+
+        return CrudUtil.execute("update Item set description = ?,unitPrice = ?,qtyOnHand = ? where code = ?",entity.getDescription(),entity.getUnitPrice(),entity.getQtyOnHand(),entity.getCode());
     }
 
     @Override
     public boolean delete(String pk) {
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from Item where code = ?");
-            preparedStatement.setObject(1,pk);
-            return preparedStatement.executeUpdate() > 0;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return false;
-        }
+        return CrudUtil.execute("delete from Item where code = ?",pk);
     }
 }
