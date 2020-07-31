@@ -77,21 +77,14 @@ public class QueryDAOImpl implements QueryDAO {
 
     @Override
     public List<CustomEntity> SearchAllOrderDetail(String key) {
-        Connection connection = DBConnection.getInstance().getConnection();
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("select o.id,o.date,c.id,c.name,SUM(od.qty * od.unitPrice) as total from " +
-                    "`Order` o inner join Customer c on " +
-                    "o.customerId = c.id inner join OrderDetail od on " +
-                    "od.orderId = o.id where o.id like ? or " +
-                    "o.date like ? or c.id like ? or " +
-                    "c.name like ? group by " +
-                    "o.id, o.date, c.id, c.name;");
-            preparedStatement.setObject(1,key);
-            preparedStatement.setObject(2,key);
-            preparedStatement.setObject(3,key);
-            preparedStatement.setObject(4,key);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = CrudUtil.execute("select o.id,o.date,c.id,c.name,SUM(od.qty * od.unitPrice) as total from \" +\n" +
+                    "                    \"`Order` o inner join Customer c on \" +\n" +
+                    "                    \"o.customerId = c.id inner join OrderDetail od on \" +\n" +
+                    "                    \"od.orderId = o.id where o.id like ? or \" +\n" +
+                    "                    \"o.date like ? or c.id like ? or \" +\n" +
+                    "                    \"c.name like ? group by \" +\n" +
+                    "                    \"o.id, o.date, c.id, c.name",key,key,key,key);
             List<CustomEntity> entityList = new ArrayList<>();
             while (resultSet.next()) {
                 entityList.add(new CustomEntity(resultSet.getString(1),
