@@ -1,5 +1,6 @@
-package business;
+package business.custom.impl;
 
+import business.custom.ItemBO;
 import dao.DAOFactory;
 import dao.DAOType;
 import dao.custom.ItemDAO;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemBO {
+public class ItemBOImpl implements ItemBO {
     public String getNewItemCode(){
         try {
             ItemDAO itemDAO = DAOFactory.getInstance().getDAO(DAOType.ITEM);

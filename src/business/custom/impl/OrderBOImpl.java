@@ -1,5 +1,6 @@
-package business;
+package business.custom.impl;
 
+import business.custom.OrderBO;
 import dao.DAOFactory;
 import dao.DAOType;
 import dao.custom.ItemDAO;
@@ -18,7 +19,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-public class OrderBO {
+public class OrderBOImpl implements OrderBO {
 
     public boolean placeOrder(OrderTM order, List<OrderDetailTM> orderDetails){
         try {
