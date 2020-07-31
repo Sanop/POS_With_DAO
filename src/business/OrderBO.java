@@ -20,7 +20,7 @@ import java.util.List;
 
 public class OrderBO {
 
-    public static boolean placeOrder(OrderTM order, List<OrderDetailTM> orderDetails){
+    public boolean placeOrder(OrderTM order, List<OrderDetailTM> orderDetails){
         try {
             Connection connection = DBConnection.getInstance().getConnection();
 
@@ -84,7 +84,7 @@ public class OrderBO {
 
     }
 
-    public static String autoGeneratePlaceOrderID(){
+    public String autoGeneratePlaceOrderID(){
         try {
             OrderDetailDAO orderDetailDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER_DETAIL);
             String oldID = orderDetailDAO.getLastOrderDetailID();
