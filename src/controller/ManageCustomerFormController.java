@@ -5,8 +5,7 @@
  */
 package controller;
 
-import business.BusinessLogic;
-import db.DBConnection;
+import business.CustomerBO;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,10 +25,6 @@ import util.CustomerTM;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -99,7 +94,7 @@ public class ManageCustomerFormController implements Initializable {
 
     private void loadAllCustomers() {
         tblCustomers.getItems().clear();
-        List<CustomerTM> allCustomers = BusinessLogic.getAllCustomers();
+        List<CustomerTM> allCustomers = CustomerBO.getAllCustomers();
         ObservableList<CustomerTM> customers = FXCollections.observableArrayList(allCustomers);
         tblCustomers.setItems(customers);
     }
@@ -127,13 +122,13 @@ public class ManageCustomerFormController implements Initializable {
 
         if (btnSave.getText().equals("Save")) {
 
-            BusinessLogic.saveCustomer(txtCustomerId.getText(),
+            CustomerBO.saveCustomer(txtCustomerId.getText(),
                     txtCustomerName.getText(),
                     txtCustomerAddress.getText());
             btnAddNew_OnAction(event);
         } else {
             CustomerTM selectedItem = tblCustomers.getSelectionModel().getSelectedItem();
-            boolean result = BusinessLogic.updateCustomer(txtCustomerName.getText(), txtCustomerAddress.getText(), selectedItem.getId());
+            boolean result = CustomerBO.updateCustomer(txtCustomerName.getText(), txtCustomerAddress.getText(), selectedItem.getId());
             if (!result) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer", ButtonType.OK).show();
             }
@@ -152,7 +147,7 @@ public class ManageCustomerFormController implements Initializable {
         if (buttonType.get() == ButtonType.YES) {
             CustomerTM selectedItem = tblCustomers.getSelectionModel().getSelectedItem();
 
-            boolean result = BusinessLogic.deleteCustomer(selectedItem.getId());
+            boolean result = CustomerBO.deleteCustomer(selectedItem.getId());
             if (!result){
                 new Alert(Alert.AlertType.ERROR, "Failed to delete the customer", ButtonType.OK).show();
             }else{
@@ -174,7 +169,7 @@ public class ManageCustomerFormController implements Initializable {
         btnSave.setDisable(false);
 
         // Generate a new id
-        txtCustomerId.setText(BusinessLogic.getNewCustomerId());
+        txtCustomerId.setText(CustomerBO.getNewCustomerId());
 
     }
 
