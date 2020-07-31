@@ -1,4 +1,5 @@
 package business;
 
-public interface BOType {
+public enum BOType {
+    CUSTOMER,ITEM,ORDER
 }

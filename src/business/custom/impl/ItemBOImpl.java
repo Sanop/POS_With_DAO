@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ItemBOImpl implements ItemBO {
-    public String getNewItemCode(){
-        try {
+    public String getNewItemCode()throws Exception{
             ItemDAO itemDAO = DAOFactory.getInstance().getDAO(DAOType.ITEM);
             String lastItemCode = itemDAO.getLastItemID();
             if (lastItemCode == null){
@@ -31,14 +30,9 @@ public class ItemBOImpl implements ItemBO {
                 }
                 return id;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
-    public List<ItemTM> getAllItems(){
-        try {
+    public List<ItemTM> getAllItems()throws Exception{
             ItemDAO itemDAO =DAOFactory.getInstance().getDAO(DAOType.ITEM);
             List<Item> allItems = itemDAO.findAll();
             List<ItemTM> itemTMS = new ArrayList<>();
@@ -47,30 +41,16 @@ public class ItemBOImpl implements ItemBO {
                 itemTMS.add(new ItemTM(allItem.getCode(),allItem.getDescription(),allItem.getUnitPrice().doubleValue(),allItem.getQtyOnHand()));
             }
             return itemTMS;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
-    public boolean saveItem(String code, String description, int qtyOnHand, BigDecimal unitPrice){
-        try {
+    public boolean saveItem(String code, String description, int qtyOnHand, BigDecimal unitPrice)throws Exception{
             ItemDAO itemDAO = DAOFactory.getInstance().getDAO(DAOType.ITEM);
             return itemDAO.add(new Item(code,description,unitPrice,qtyOnHand));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
-    public boolean deleteItem(String itemCode){
-        try {
+    public boolean deleteItem(String itemCode)throws Exception{
             ItemDAO itemDAO = DAOFactory.getInstance().getDAO(DAOType.ITEM);
             return itemDAO.delete(itemCode);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     public boolean updateItem(String description, int qtyOnHand, BigDecimal unitPrice, String itemCode){

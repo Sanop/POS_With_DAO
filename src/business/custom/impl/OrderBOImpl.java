@@ -21,7 +21,7 @@ import java.util.List;
 
 public class OrderBOImpl implements OrderBO {
 
-    public boolean placeOrder(OrderTM order, List<OrderDetailTM> orderDetails){
+    public boolean placeOrder(OrderTM order, List<OrderDetailTM> orderDetails)throws Exception{
         try {
             Connection connection = DBConnection.getInstance().getConnection();
 
@@ -85,8 +85,7 @@ public class OrderBOImpl implements OrderBO {
 
     }
 
-    public String autoGeneratePlaceOrderID(){
-        try {
+    public String autoGeneratePlaceOrderID()throws Exception{
             OrderDetailDAO orderDetailDAO = DAOFactory.getInstance().getDAO(DAOType.ORDER_DETAIL);
             String oldID = orderDetailDAO.getLastOrderDetailID();
             oldID = oldID.substring(2, 5);
@@ -100,9 +99,5 @@ public class OrderBOImpl implements OrderBO {
             } else {
                 return  "OD" + newID;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }
