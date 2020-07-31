@@ -13,8 +13,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 
     @Override
-    public List<Order> findAll() {
-        try {
+    public List<Order> findAll()throws Exception {
             ResultSet resultSet = CrudUtil.execute("select * from `Order`");
             List<Order> orderList = new ArrayList<>();
             while (resultSet.next()){
@@ -23,15 +22,11 @@ public class OrderDAOImpl implements OrderDAO {
                         resultSet.getString(3)));
             }
             return orderList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
     }
 
     @Override
-    public Order find(String pk) {
-        try {
+    public Order find(String pk)throws Exception {
+
             ResultSet resultSet = CrudUtil.execute("select * from `Order` where id = ?",pk);
 
             if(resultSet.next()){
@@ -39,26 +34,22 @@ public class OrderDAOImpl implements OrderDAO {
                         resultSet.getDate(2),
                         resultSet.getString(3));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
         return null;
     }
 
     @Override
-    public boolean add(Order entity) {
+    public boolean add(Order entity)throws Exception{
 
         return CrudUtil.execute("insert into `Order` values (?,?,?)",entity.getId(),entity.getDate(),entity.getCustomerId());
     }
 
     @Override
-    public boolean update(Order entity) {
+    public boolean update(Order entity)throws Exception {
         return CrudUtil.execute("update `Order` set date =  ?,customerId = ? where id = ?",entity.getDate(),entity.getCustomerId(),entity.getId());
     }
 
     @Override
-    public boolean delete(String pk) {
+    public boolean delete(String pk)throws Exception {
         return CrudUtil.execute("delete from `Order` where id = ?",pk);
     }
 }

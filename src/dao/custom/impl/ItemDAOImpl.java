@@ -14,23 +14,19 @@ public class ItemDAOImpl implements ItemDAO {
 
 
     @Override
-    public String getLastItemID() {
-        try {
+    public String getLastItemID() throws Exception{
+
             ResultSet resultSet = CrudUtil.execute("select * from Item order by code desc limit 1");
             if(resultSet.next()){
                 return resultSet.getString(1);
             }else{
                 return null;
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
     }
 
     @Override
-    public List<Item> findAll() {
-        try {
+    public List<Item> findAll()throws Exception {
+
             ResultSet resultSet = CrudUtil.execute("select * from Item");
             List<Item> itemList = new ArrayList<>();
             while (resultSet.next()){
@@ -40,15 +36,11 @@ public class ItemDAOImpl implements ItemDAO {
                         Integer.parseInt(resultSet.getString(4))));
             }
             return itemList;
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
     }
 
     @Override
-    public Item find(String pk) {
-        try {
+    public Item find(String pk)throws Exception {
+
             ResultSet resultSet = CrudUtil.execute("select * from Item where code = ?",pk);
 
             if(resultSet.next()){
@@ -57,27 +49,22 @@ public class ItemDAOImpl implements ItemDAO {
                         new BigDecimal(resultSet.getString(3)),
                         Integer.parseInt(resultSet.getString(4)));
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-            return null;
-        }
+
         return null;
     }
 
     @Override
-    public boolean add(Item entity) {
+    public boolean add(Item entity)throws Exception {
         return CrudUtil.execute("insert into Item values (?,?,?,?)" , entity.getCode(),entity.getDescription(),entity.getUnitPrice(),entity.getQtyOnHand());
     }
 
     @Override
-    public boolean update(Item entity) {
-
-
+    public boolean update(Item entity)throws Exception {
         return CrudUtil.execute("update Item set description = ?,unitPrice = ?,qtyOnHand = ? where code = ?",entity.getDescription(),entity.getUnitPrice(),entity.getQtyOnHand(),entity.getCode());
     }
 
     @Override
-    public boolean delete(String pk) {
+    public boolean delete(String pk)throws Exception {
         return CrudUtil.execute("delete from Item where code = ?",pk);
     }
 }

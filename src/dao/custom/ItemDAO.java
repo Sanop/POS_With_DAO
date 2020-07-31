@@ -5,5 +5,5 @@ import dao.SuperDAO;
 import entity.Item;
 
 public interface ItemDAO extends CrudDAO<Item , String> {
-    public String getLastItemID();
+    public String getLastItemID()throws Exception;
 }

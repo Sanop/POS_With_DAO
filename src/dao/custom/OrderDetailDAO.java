@@ -6,5 +6,5 @@ import entity.OrderDetail;
 import entity.OrderDetailPK;
 
 public interface OrderDetailDAO extends CrudDAO<OrderDetail , OrderDetailPK> {
-    public String getLastOrderDetailID();
+    public String getLastOrderDetailID()throws Exception;
 }

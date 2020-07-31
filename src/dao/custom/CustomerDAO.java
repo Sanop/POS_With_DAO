@@ -5,5 +5,5 @@ import dao.SuperDAO;
 import entity.Customer;
 
 public interface CustomerDAO extends CrudDAO<Customer , String > {
-    public String getLastCustomerID();
+    public String getLastCustomerID() throws Exception;
 }

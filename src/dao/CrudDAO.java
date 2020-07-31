@@ -6,14 +6,14 @@ import java.io.Serializable;
 import java.util.List;
 
 public interface CrudDAO <T extends SuperEntity,ID extends Serializable> extends SuperDAO{
-    List<T> findAll();
+    List<T> findAll()throws Exception;
 
-    T find(ID pk);
+    T find(ID pk)throws Exception;
 
-    boolean add(T entity);
+    boolean add(T entity)throws Exception;
 
-    boolean update(T entity);
+    boolean update(T entity)throws Exception;
 
-    boolean delete(ID pk);
+    boolean delete(ID pk)throws Exception;
 }
 
