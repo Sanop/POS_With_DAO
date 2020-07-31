@@ -5,6 +5,10 @@
  */
 package controller;
 
+import business.BOFactory;
+import business.BOType;
+import business.SuperBO;
+import business.custom.CustomerBO;
 import business.custom.impl.CustomerBOImpl;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -52,6 +56,8 @@ public class ManageCustomerFormController implements Initializable {
     @FXML
     private TableView<CustomerTM> tblCustomers;
 
+    private CustomerBO customerBO = BOFactory.getInstance().getBO(BOType.CUSTOMER);
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tblCustomers.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -94,7 +100,12 @@ public class ManageCustomerFormController implements Initializable {
 
     private void loadAllCustomers() {
         tblCustomers.getItems().clear();
-        List<CustomerTM> allCustomers = CustomerBOImpl.getAllCustomers();
+        List<CustomerTM> allCustomers = null;
+        try {
+            allCustomers = customerBO.getAllCustomers();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         ObservableList<CustomerTM> customers = FXCollections.observableArrayList(allCustomers);
         tblCustomers.setItems(customers);
     }
@@ -110,7 +121,7 @@ public class ManageCustomerFormController implements Initializable {
     }
 
     @FXML
-    private void btnSave_OnAction(ActionEvent event) {
+    private void btnSave_OnAction(ActionEvent event) throws Exception {
         String name = txtCustomerName.getText();
         String address = txtCustomerAddress.getText();
 
@@ -122,13 +133,17 @@ public class ManageCustomerFormController implements Initializable {
 
         if (btnSave.getText().equals("Save")) {
 
-            CustomerBOImpl.saveCustomer(txtCustomerId.getText(),
-                    txtCustomerName.getText(),
-                    txtCustomerAddress.getText());
+            try {
+                customerBO.saveCustomer(txtCustomerId.getText(),
+                        txtCustomerName.getText(),
+                        txtCustomerAddress.getText());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             btnAddNew_OnAction(event);
         } else {
             CustomerTM selectedItem = tblCustomers.getSelectionModel().getSelectedItem();
-            boolean result = CustomerBOImpl.updateCustomer(txtCustomerName.getText(), txtCustomerAddress.getText(), selectedItem.getId());
+            boolean result = customerBO.updateCustomer(txtCustomerName.getText(), txtCustomerAddress.getText(), selectedItem.getId());
             if (!result) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the customer", ButtonType.OK).show();
             }
@@ -147,7 +162,12 @@ public class ManageCustomerFormController implements Initializable {
         if (buttonType.get() == ButtonType.YES) {
             CustomerTM selectedItem = tblCustomers.getSelectionModel().getSelectedItem();
 
-            boolean result = CustomerBOImpl.deleteCustomer(selectedItem.getId());
+            boolean result = false;
+            try {
+                result = customerBO.deleteCustomer(selectedItem.getId());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (!result){
                 new Alert(Alert.AlertType.ERROR, "Failed to delete the customer", ButtonType.OK).show();
             }else{
@@ -169,7 +189,11 @@ public class ManageCustomerFormController implements Initializable {
         btnSave.setDisable(false);
 
         // Generate a new id
-        txtCustomerId.setText(CustomerBOImpl.getNewCustomerId());
+        try {
+            txtCustomerId.setText(customerBO.getNewCustomerId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 

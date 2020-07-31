@@ -5,6 +5,9 @@
  */
 package controller;
 
+import business.BOFactory;
+import business.BOType;
+import business.custom.ItemBO;
 import business.custom.impl.ItemBOImpl;
 import com.jfoenix.controls.JFXTextField;
 import javafx.beans.value.ChangeListener;
@@ -52,6 +55,7 @@ public class ManageItemFormController implements Initializable {
     @FXML
     private AnchorPane root;
 
+    private ItemBO itemBO = BOFactory.getInstance().getBO(BOType.ITEM);
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tblItems.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("code"));
@@ -102,7 +106,11 @@ public class ManageItemFormController implements Initializable {
 
         ObservableList<ItemTM> items = tblItems.getItems();
         items.clear();
-        items = FXCollections.observableArrayList(ItemBOImpl.getAllItems());
+        try {
+            items = FXCollections.observableArrayList(itemBO.getAllItems());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         tblItems.setItems(items);
     }
 
@@ -136,7 +144,12 @@ public class ManageItemFormController implements Initializable {
 
         if (btnSave.getText().equals("Save")) {
 
-            boolean result = ItemBOImpl.saveItem(txtCode.getText(), txtDescription.getText(), qtyOnHand, BigDecimal.valueOf(unitPrice));
+            boolean result = false;
+            try {
+                result = itemBO.saveItem(txtCode.getText(), txtDescription.getText(), qtyOnHand, BigDecimal.valueOf(unitPrice));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (!result){
                 new Alert(Alert.AlertType.ERROR, "Failed to save the item", ButtonType.OK).show();
             }
@@ -144,7 +157,12 @@ public class ManageItemFormController implements Initializable {
         } else {
             ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
 
-            boolean result = ItemBOImpl.updateItem(txtDescription.getText(),  qtyOnHand, BigDecimal.valueOf(unitPrice), selectedItem.getCode());
+            boolean result = false;
+            try {
+                result = itemBO.updateItem(txtDescription.getText(),  qtyOnHand, BigDecimal.valueOf(unitPrice), selectedItem.getCode());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (!result) {
                 new Alert(Alert.AlertType.ERROR, "Failed to update the Item").show();
             }
@@ -162,7 +180,12 @@ public class ManageItemFormController implements Initializable {
         Optional<ButtonType> buttonType = alert.showAndWait();
         if (buttonType.get() == ButtonType.YES) {
             ItemTM selectedItem = tblItems.getSelectionModel().getSelectedItem();
-            boolean result = ItemBOImpl.deleteItem(selectedItem.getCode());
+            boolean result = false;
+            try {
+                result = itemBO.deleteItem(selectedItem.getCode());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             if (!result){
                 new Alert(Alert.AlertType.ERROR, "Failed to delete the item", ButtonType.OK).show();
             }else{
@@ -186,7 +209,11 @@ public class ManageItemFormController implements Initializable {
         btnSave.setDisable(false);
 
         // Generate a new id
-        txtCode.setText(ItemBOImpl.getNewItemCode());
+        try {
+            txtCode.setText(itemBO.getNewItemCode());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
